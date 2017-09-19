@@ -1,5 +1,5 @@
 <div class="container">
   <div class="row">
-    <ng-image [image]="image"></ng-image>
+    <ng-image *ngFor="let image of images"  [image]="image"></ng-image>
   </div>
 </div>
