@@ -11,6 +11,7 @@ import {ImageService} from '../../services/image/image.service';
 
 export class ImageListComponent implements OnInit {
   images: Image[] = [];
+  selectedImage: Image;
 
   constructor(private imageService: ImageService) {
   }
@@ -19,4 +20,7 @@ export class ImageListComponent implements OnInit {
     this.images = this.imageService.getImages();
   }
 
+  onSelect(image: Image) {
+    this.selectedImage = image;
+  }
 }
