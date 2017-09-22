@@ -1,70 +1,60 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-# All Vagrant configuration is done below. The "2" in Vagrant.configure
-# configures the configuration version (we support older styles for
-# backwards compatibility). Please don't change it unless you know what
-# you're doing.
+# Config Github Settings
+github_username     = "aasanchez"
+github_repo         = "Vaprobash"
+github_branch       = "master"
+github_url          = "https://raw.githubusercontent.com/#{github_username}/#{github_repo}/#{github_branch}"
+db_root_password    = "root"   # We'll assume user "root"
+db_enable_remote    = "true"   # remote access enabled when true
+db_name             = "nggallery" # Database Name
+php_version         = "7.1" # Options: 5.6 | 7.0 | 7.1
+composer_packages   = [ ]
+public_folder       = "/vagrant/"
+laravel_version         = "latest" # If you need a specific version of Laravel, set it here
+
 Vagrant.configure("2") do |config|
-  # The most common configuration options are documented and commented below.
-  # For a complete reference, please see the online documentation at
-  # https://docs.vagrantup.com.
+  config.vm.box = "ubuntu/xenial64"
 
-  # Every Vagrant development environment requires a box. You can search for
-  # boxes at https://vagrantcloud.com/search.
-  config.vm.box = "base"
+  config.vm.define "database" do |db|
+    db.vm.hostname = "db.cursoangular"
+    db.vm.network :private_network, ip: "192.169.1.10"
+    db.ssh.forward_agent = true
+    db.vm.synced_folder ".", "/vagrant"
+    db.vm.provider :virtualbox do |vb|
+      vb.name = "cursoangular.db"
+      vb.customize ["modifyvm", :id, "--cpus", 1]
+      vb.customize ["modifyvm", :id, "--memory", 1024]
+      vb.customize ["guestproperty", "set", :id, "/VirtualBox/GuestAdd/VBoxService/--timesync-set-threshold", 10000]
+    end
+    db.vm.provision "shell", path: "#{github_url}/scripts/mysql.sh", args: [db_root_password, db_enable_remote, db_name]
+  end
 
-  # Disable automatic box update checking. If you disable this, then
-  # boxes will only be checked for updates when the user runs
-  # `vagrant box outdated`. This is not recommended.
-  # config.vm.box_check_update = false
+  config.vm.define "api" do |api|
+    api.vm.hostname = "cursoangular.app"
+    api.vm.network :private_network, ip: "192.169.1.11"
+    api.ssh.forward_agent = true
+    api.vm.synced_folder "cursoangular/", "/vagrant",
+      id: "core",
+      :nfs => true,
+    :mount_options => ['nolock,vers=3,udp,noatime,actimeo=2,fsc']
+    api.vm.provider :virtualbox do |vb|
+      vb.name = "cursoangular.web"
+      vb.customize ["modifyvm", :id, "--cpus", 1]
+      vb.customize ["modifyvm", :id, "--memory", 1024]
+      vb.customize ["guestproperty", "set", :id, "/VirtualBox/GuestAdd/VBoxService/--timesync-set-threshold", 10000]
+    end
+    api.vm.provision "shell", path: "#{github_url}/scripts/php.sh", args: ["UTC", php_version]
+    api.vm.provision "shell", path: "#{github_url}/scripts/nginx.sh", args: ["192.169.1.11", public_folder, "cursoangular.app", github_url]
+    api.vm.provision "shell", path: "#{github_url}/scripts/composer.sh", privileged: false, args: ["", composer_packages.join(" ")]
+    api.vm.provision "shell", path: "#{github_url}/scripts/laravel.sh", privileged: false, args: ["192.169.1.11", public_folder, laravel_version]
+    api.vm.provision "shell", inline: <<-SHELL
+      cp /vagrant/.env.example /vagrant/.env
+      cd /vagrant && php artisan migrate --force
+    SHELL
+  end
 
-  # Create a forwarded port mapping which allows access to a specific port
-  # within the machine from a port on the host machine. In the example below,
-  # accessing "localhost:8080" will access port 80 on the guest machine.
-  # NOTE: This will enable public access to the opened port
-  # config.vm.network "forwarded_port", guest: 80, host: 8080
+  config.vm.provision "shell", path: "#{github_url}/scripts/base.sh", args: [384, "UTC"]
 
-  # Create a forwarded port mapping which allows access to a specific port
-  # within the machine from a port on the host machine and only allow access
-  # via 127.0.0.1 to disable public access
-  # config.vm.network "forwarded_port", guest: 80, host: 8080, host_ip: "127.0.0.1"
-
-  # Create a private network, which allows host-only access to the machine
-  # using a specific IP.
-  # config.vm.network "private_network", ip: "192.168.33.10"
-
-  # Create a public network, which generally matched to bridged network.
-  # Bridged networks make the machine appear as another physical device on
-  # your network.
-  # config.vm.network "public_network"
-
-  # Share an additional folder to the guest VM. The first argument is
-  # the path on the host to the actual folder. The second argument is
-  # the path on the guest to mount the folder. And the optional third
-  # argument is a set of non-required options.
-  # config.vm.synced_folder "../data", "/vagrant_data"
-
-  # Provider-specific configuration so you can fine-tune various
-  # backing providers for Vagrant. These expose provider-specific options.
-  # Example for VirtualBox:
-  #
-  # config.vm.provider "virtualbox" do |vb|
-  #   # Display the VirtualBox GUI when booting the machine
-  #   vb.gui = true
-  #
-  #   # Customize the amount of memory on the VM:
-  #   vb.memory = "1024"
-  # end
-  #
-  # View the documentation for the provider you are using for more
-  # information on available options.
-
-  # Enable provisioning with a shell script. Additional provisioners such as
-  # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
-  # documentation for more information about their specific syntax and use.
-  # config.vm.provision "shell", inline: <<-SHELL
-  #   apt-get update
-  #   apt-get install -y apache2
-  # SHELL
 end
