@@ -51,6 +51,7 @@ Vagrant.configure("2") do |config|
     api.vm.provision "shell", path: "#{github_url}/scripts/laravel.sh", privileged: false, args: ["192.169.1.11", public_folder, laravel_version]
     api.vm.provision "shell", inline: <<-SHELL
       cp /vagrant/.env.example /vagrant/.env
+      cd /vagrant && php artisan key:generate
       cd /vagrant && php artisan migrate --force
     SHELL
   end
