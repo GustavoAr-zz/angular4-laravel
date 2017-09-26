@@ -18,11 +18,11 @@ class ImagesTableSeeder extends Seeder
             $color1 = substr($faker->hexcolor(), 1);
             $color2 = substr($faker->hexcolor(), 1);
             Image::create([
-                'title'       => $faker->text(80),
-                'description' => $faker->paragraph(18),
+                'title'       => $content = $faker->text(80),
+                'description' => $faker->paragraph(5),
                 'thumbnail'   => 'http://via.placeholder.com/300x200/' . $color1 . '/' . $color2 . '/?text=thumbnail',
-                'imageLink'   => 'http://via.placeholder.com/800x500/' . $color1 . '/' . $color2 . '/?text=imageLink',
-                'user_id'     => $faker->numberBetween(1, 5),
+                'imageLink'   => 'http://via.placeholder.com/600x400/' . $color1 . '/' . $color2 . '/?text=imageLink',
+                'user_id'     => $faker->numberBetween($min = 1, $max = 5),
             ]);
         }
     }
