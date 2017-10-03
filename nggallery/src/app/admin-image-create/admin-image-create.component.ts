@@ -12,4 +12,8 @@ export class AdminImageCreateComponent implements OnInit {
   ngOnInit() {
   }
 
+  createImage(image) {
+    console.log(image);
+  }
+
 }

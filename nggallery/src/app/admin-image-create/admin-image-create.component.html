@@ -3,31 +3,31 @@
 </div>
 <div class="col-md-10 col-md-offset-1">
   <div class="well well bs-component">
-    <form action="" class="form-horizontal">
+    <form action="" class="form-horizontal" (ngSubmit)="createImage(createImageForm.value)"  #createImageForm="ngForm">
       <fieldset>
         <legend>Add new image</legend>
         <div class="form-group">
           <label for="thumbnail" class="col-lg-2 control-label">Miniature</label>
           <div class="col-lg-10">
-            <input type="text" class="form-control" name="thumbnail" placeholder="Thumbnail of the image" id="thumbnail">
+            <input type="text" class="form-control" name="thumbnail" placeholder="Thumbnail of the image" id="thumbnail" ngModel>
           </div>
         </div>
         <div class="form-group">
           <label for="imageLink" class="col-lg-2 control-label">Image Link</label>
           <div class="col-lg-10">
-            <input type="text" class="form-control" name="imageLink" placeholder="Link of the image" id="imageLink">
+            <input type="text" class="form-control" name="imageLink" placeholder="Link of the image" id="imageLink" ngModel>
           </div>
         </div>
         <div class="form-group">
           <label for="title" class="col-lg-2 control-label">Title</label>
           <div class="col-lg-10">
-            <input type="text" class="form-control" name="title" placeholder="Title of the image" id="title">
+            <input type="text" class="form-control" name="title" placeholder="Title of the image" id="title" ngModel>
           </div>
         </div>
         <div class="form-group">
           <label for="description" class="col-lg-2 control-label">Description</label>
           <div class="col-lg-10">
-            <textarea type="text" rows="3" class="form-control" name="description" placeholder="Descriptcion of the image" id="description"></textarea>
+            <textarea type="text" rows="3" class="form-control" name="description" placeholder="Descriptcion of the image" id="description" ngModel></textarea>
           </div>
         </div>
         <div class="form-group">
