@@ -53,6 +53,7 @@ Vagrant.configure("2") do |config|
       cp /vagrant/.env.example /vagrant/.env
       cd /vagrant && php artisan key:generate
       cd /vagrant && php artisan migrate --force
+      cd /vagrant && php artisan db:seed
     SHELL
   end
 
