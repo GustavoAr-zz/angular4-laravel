@@ -38,7 +38,32 @@ class ImagesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        if((!$request->title) || (!$request->thumbnail) || (!$request->imageLink) ){
+            $response = Response::json([
+                'message' => 'Por favor escriba todos los campos requeridos'
+            ],422);
+            return $response;
+        }
+
+        var_dump($request);
+        $image = new Image([
+           'thumbnail' => trim($request->thumbnail),
+           'imageLink' => trim($request->imageLink),
+           'title' => trim($request->title),
+           'description' => trim($request->description),
+           'user_id' => 1,
+        ]);
+        $image->save();
+
+        $message = 'Su imagen ha sido añadida de modo correcto';
+
+        $response = Response::json([
+            'message' => $message,
+            'data' => $image
+        ],201);
+
+        return $response;
     }
 
     /**

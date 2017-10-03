@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {ImageService} from '../services/image/image.service';
 
 @Component({
   selector: 'ng-admin-image-create',
@@ -7,13 +8,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AdminImageCreateComponent implements OnInit {
 
-  constructor() { }
+  constructor(private imageService: ImageService) {
+  }
 
   ngOnInit() {
   }
 
   createImage(image) {
-    console.log(image);
+    this.imageService.addImage(image)
+      .subscribe(
+        image => console.log(image),
+        error => console.log(<any>error)
+      );
   }
-
 }
