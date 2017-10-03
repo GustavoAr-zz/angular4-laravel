@@ -3,6 +3,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {ImageService} from './services/image/image.service';
 import { HttpModule} from '@angular/http';
+import { FormsModule} from '@angular/forms';
 
 import {AppComponent} from './app.component';
 import {NavbarComponent} from './navbar.component';
@@ -15,6 +16,7 @@ import {AboutComponent} from './about/about.component';
 import { AdminComponent } from './admin/admin.component';
 import { DashboardComponent } from './admin/dashboard.component';
 import { AdminImagesListComponent } from './admin/admin-images-list/admin-images-list.component';
+import { AdminImageCreateComponent } from './admin-image-create/admin-image-create.component';
 
 
 @NgModule({
@@ -30,11 +32,13 @@ import { AdminImagesListComponent } from './admin/admin-images-list/admin-images
     AdminComponent,
     DashboardComponent,
     AdminImagesListComponent,
+    AdminImageCreateComponent
   ],
   imports: [
     routes,
     BrowserModule,
     HttpModule,
+    FormsModule
   ],
   providers: [
     ImageService
