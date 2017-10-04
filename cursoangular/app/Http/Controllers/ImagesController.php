@@ -46,7 +46,6 @@ class ImagesController extends Controller
             return $response;
         }
 
-        var_dump($request);
         $image = new Image([
            'thumbnail' => trim($request->thumbnail),
            'imageLink' => trim($request->imageLink),
