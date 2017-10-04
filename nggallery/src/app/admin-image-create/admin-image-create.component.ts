@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ImageService} from '../services/image/image.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'ng-admin-image-create',
@@ -8,7 +9,7 @@ import {ImageService} from '../services/image/image.service';
 })
 export class AdminImageCreateComponent implements OnInit {
 
-  constructor(private imageService: ImageService) {
+  constructor(private imageService: ImageService, private router: Router) {
   }
 
   ngOnInit() {
@@ -17,7 +18,10 @@ export class AdminImageCreateComponent implements OnInit {
   createImage(image) {
     this.imageService.addImage(image)
       .subscribe(
-        image => console.log(image),
+        image => {
+          console.log(image);
+          this.router.navigate(['/admin/images']);
+        },
         error => console.log(<any>error)
       );
   }
