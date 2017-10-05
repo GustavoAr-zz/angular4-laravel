@@ -41,7 +41,7 @@ class ImagesController extends Controller
 
         if((!$request->title) || (!$request->thumbnail) || (!$request->imageLink) ){
             $response = Response::json([
-                'message' => 'Por favor escriba todos los campos requeridos'
+                'message' => 'Please enter all required fields'
             ],422);
             return $response;
         }
@@ -55,7 +55,7 @@ class ImagesController extends Controller
         ]);
         $image->save();
 
-        $message = 'Su imagen ha sido añadida de modo correcto';
+        $message = 'SYour image has been added correctly';
 
         $response = Response::json([
             'message' => $message,

@@ -12,10 +12,10 @@
             <input type="text" class="form-control" name="thumbnail" placeholder="Thumbnail of the image" id="thumbnail"
                    ngModel #thumbnail="ngModel" required minlength="2">
             <div *ngIf="thumbnail.errors?.required && thumbnail.touched" class="alert alert-danger">
-              La miniatura es obligatoria
+              The link to the miniature its required
             </div>
             <div *ngIf="thumbnail.errors?.minlength && thumbnail.touched" class="alert alert-danger">
-              Minimo 2 caracteres
+              Minimum 2 characters
             </div>
           </div>
         </div>
@@ -25,7 +25,7 @@
             <input type="text" class="form-control" name="imageLink" placeholder="Link of the image" id="imageLink"
                    ngModel #imageLink="ngModel" required>
             <div *ngIf="imageLink.errors?.required && imageLink.touched" class="alert alert-danger">
-              El enlace a la imagen es obligatorio
+              The link to image is required
             </div>
           </div>
         </div>
@@ -35,7 +35,7 @@
             <input type="text" class="form-control" name="title" placeholder="Title of the image" id="title"
                    ngModel #title="ngModel" required>
             <div *ngIf="title.errors?.required && title.touched" class="alert alert-danger">
-              El titulo es obligatorio
+              The title is required.
             </div>
           </div>
         </div>
@@ -46,7 +46,7 @@
                       ngModel #description="ngModel" required>
             </textarea>
             <div *ngIf="description.errors?.required && description.touched" class="alert alert-danger">
-              La descriptcion es obligatoria
+              Description is required
             </div>
           </div>
         </div>
