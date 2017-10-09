@@ -17,6 +17,7 @@ import { AdminComponent } from './admin/admin.component';
 import { DashboardComponent } from './admin/dashboard.component';
 import { AdminImagesListComponent } from './admin/admin-images-list/admin-images-list.component';
 import { AdminImageCreateComponent } from './admin-image-create/admin-image-create.component';
+import { AdminImageEditComponent } from './admin/admin-image-edit/admin-image-edit.component';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { AdminImageCreateComponent } from './admin-image-create/admin-image-crea
     AdminComponent,
     DashboardComponent,
     AdminImagesListComponent,
-    AdminImageCreateComponent
+    AdminImageCreateComponent,
+    AdminImageEditComponent
   ],
   imports: [
     routes,
