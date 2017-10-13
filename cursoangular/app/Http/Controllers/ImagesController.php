@@ -73,7 +73,15 @@ class ImagesController extends Controller
      */
     public function show($id)
     {
-        //
+        $image = Image::find($id);
+        if(!$image){
+            return Response::json([
+                'error' => [
+                    'message' => "Image not found"
+                ]
+            ],404);
+        }
+        return Response::json($image,200);
     }
 
     /**
