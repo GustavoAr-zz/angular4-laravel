@@ -1,6 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {ImageService} from '../../services/image/image.service';
+import {Image} from '../../models/image';
 
 @Component({
   selector: 'ng-admin-image-edit',
@@ -11,6 +12,8 @@ export class AdminImageEditComponent implements OnInit, OnDestroy {
   id: any;
   params: any;
 
+  image  = new Image('id', 'title', 'description', 'thumbnail', 'imageLink');
+
   constructor(private activateRoute: ActivatedRoute, private  imageService: ImageService) {
   }
 
@@ -19,6 +22,11 @@ export class AdminImageEditComponent implements OnInit, OnDestroy {
     this.imageService.getImage(this.id).subscribe(
       data => {
         console.log(data);
+        this.image.description = data['description'];
+        this.image.title = data['title'];
+        this.image.imageLink = data['imageLink'];
+        this.image.thumbnail = data['thumbnail'];
+        this.image.id = data['id'];
       },
       error => console.log(<any>error));
   }
