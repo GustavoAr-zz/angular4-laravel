@@ -23,6 +23,16 @@ export class ImageService {
     return this.http.get('http://cursoangular.app/api/v1/images/' + id)
       .map((response: Response) => response.json());
   }
+
+  updateImage(image: Object): Observable<Image[]> {
+    const apiURL = 'http://cursoangular.app/api/v1/images';
+    const url = `${apiURL}/${image}["id"]}`;
+    return this.http.put(url, image)
+      .map((response: Response) => response.json())
+      .catch((error:any) => Observable.throw(error.json().error || {message: 'Internal Error'}))
+      ;
+  }
+
 }
 
 
