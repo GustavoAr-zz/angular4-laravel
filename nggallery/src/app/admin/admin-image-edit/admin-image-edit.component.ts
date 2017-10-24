@@ -34,4 +34,15 @@ export class AdminImageEditComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.params.unsubscribe();
   }
+
+  updateImage(image) {
+    this.imageService.updateImage(image)
+      .subscribe(
+        image => {
+          console.log(image);
+        },
+        error => console.log(<any>error)
+      );
+  }
+
 }
